@@ -9,7 +9,7 @@
 using namespace std;
 
 class Vehiculo{
-	public:
+	protected:
 		int numLlantas;
 		int capacidad;
 		string motor;
@@ -40,7 +40,7 @@ class Vehiculo{
 };
 
 class Carro: public Vehiculo{
-	public:
+	private:
 		string modelo;
 		string marca;
 	public:
@@ -97,8 +97,10 @@ class Lista{
 			
 		string recorrerLista(){
 			char ind;
-			if(lista==NULL)
+			if(lista==NULL){
 				cout<<"  Lista vacia"<<endl;
+				getch();
+				}
 			else{
 				Carro *aux = new Carro();
 				aux=lista;
@@ -145,27 +147,62 @@ class Lista{
 		else
 			cout<<"El Carro no esta en la lista"<<endl<<endl;
 	}
-//	public: void buscarValor(int x){
-//		Nodo *aux = new Nodo();
-//		int editar=0;
-//		aux=lista;
-//		while(aux!=NULL&&aux->getNum()!=x)
-//			aux=aux->sig;
-//		if(aux==NULL)
-//			cout<<endl<<"El valor no esta en la lista"<<endl<<endl;
-//		else{
-//			cout<<endl<<"	Valor encontrado"<<endl<<endl;
-//			cout<<"Modifica valor?(Si=1, No=0)\nOpcion: "; 
-//			cin>>editar;
-//			cout<<endl;
-//			if(editar==1){
-//				cout<<"Nuevo valor: ";
-//				cin>>x;
-//				cout<<endl;
-//				aux->setNum(x);
-//			}
-//		}
-//	}
+	public: void buscarValor(string x){
+		Carro *aux = new Carro();
+		aux=lista;
+		while(aux!=NULL&&aux->getmodelo()!=x)
+			aux=aux->sig;
+		if(aux==NULL)
+			cout<<endl<<"El valor no esta en la lista"<<endl<<endl;
+		else{
+			int opcion2, i;
+			do{
+				cout<<endl<<"  MODELO ENCONTRADO\n\n  Que desea editar?\n\n  1)Marca\n  2)Modelo\n  3)Motor\n  4)Capacidad de pasajeros\n  5)Numero de llantas\n  6)Salir\n\n  Opcion: ";
+				cin>>opcion2;
+				system("cls");
+				switch(opcion2){
+					case 1:
+						cout<<endl<<"Nueva marca: ";
+						cin>>x;
+						aux->setmarca(x);
+						system("cls");
+						break;
+					case 2:
+						cout<<endl<<"Nuevo modelo: ";
+						cin>>x;
+						aux->setmodelo(x);
+						system("cls");
+						break;
+					case 3:
+						cout<<endl<<"Nuevo motor: ";
+						cin>>x;
+						aux->setmotor(x);
+						system("cls");
+						break;
+					case 4:
+						cout<<endl<<"Nueva capacidad de pasajeros: ";
+						cin>>i;
+						aux->setcapacidad(i);
+						system("cls");
+						break;
+					case 5:
+						cout<<endl<<"Nuevo numero de llantas: ";
+						cin>>i;
+						aux->setnumLlantas(i);
+						system("cls");
+						break;
+					case 6:
+						cout<<endl<<"Saliste de editar"<<endl;
+						system("cls");
+						break;
+					default:
+						cout<<endl<<"Opcion invalida"<<endl;
+						system("cls");
+						break;
+				}
+			}while(opcion2!=6);
+		}
+	}
 		void registrar(Carro *c){
 			string a, b, f;
 			int d, e;
@@ -201,6 +238,7 @@ void Eliminar(Lista*);
 
 int main(){
 	char opcion;
+	string a;
 	Lista *list = new Lista();
 	do{
 		system("cls");
@@ -215,6 +253,10 @@ int main(){
 				list->recorrerLista();
 				break;
 			case '3':
+				cout<<"  Introduzca el modelo del vehiculo que busca: ";
+				fflush(stdin);getline(cin, a);
+				system("cls");
+				list->buscarValor(a);
 				break;
 			case '4':
 				Eliminar(list);
@@ -244,7 +286,7 @@ void Eliminar(Lista *list){
 			list->eliminarNodo(list->recorrerLista());
 			break;
 		case '2':
-			cout << "  Anote el modelo de el carro que dese eliminar " << endl << "  Modelo: ";
+			cout << "  Anote el modelo de el carro que desee eliminar " << endl << "  Modelo: ";
 			fflush(stdin);getline(cin,z);
 			list->eliminarNodo(z);
 			break;
@@ -401,3 +443,4 @@ void Eliminar(Lista *list){
 //	cin>>tel;
 //	p->setTelefon(tel);
 //}
+
