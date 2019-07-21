@@ -69,9 +69,6 @@ class Carro: public Vehiculo{
 		}
 };
 
-void registrar(Carro *);
-void mostrar(Carro *);
-
 class Lista{
 	private:
 		Carro *lista;
@@ -157,6 +154,35 @@ class Lista{
 //			}
 //		}
 //	}
+		void registrar(Carro *c){
+			string a, b, f;
+			int d, e;
+			cout<<endl<<"  Introduce la marca del vehiculo: ";
+			fflush(stdin);getline(cin,a);
+			c->setmarca(a);
+			cout<<endl<<"  Introduce el modelo del vehiculo: ";
+			fflush(stdin);getline(cin, b);
+			c->setmodelo(b);
+			cout<<endl<<"  Introduce el motor del vehiculo: ";
+			fflush(stdin);getline(cin, f);
+			c->setmotor(f);
+			cout<<endl<<"  Introduce la capacidad de pasajeros del vehiculo: ";
+			cin>>e;
+			c->setcapacidad(e);
+			cout<<endl<<"  Introduce el numero de llantas del vehiculo: ";
+			cin>>d;
+			c->setnumLlantas(d);
+			cout<<endl<<endl;
+		}
+		
+		void mostrar(Carro *aux){
+			cout<<endl<<"  Marca: "<<aux->getmarca()<<endl;
+			cout<<"  Modelo: "<<aux->getmodelo()<<endl;
+			cout<<"  Capacidad de pasajeros: "<<aux->getcapacidad()<<endl;
+			cout<<"  Motor: "<<aux->getmotor()<<endl;
+			cout<<"  Numero de llantas: "<<aux->getnumLlantas()<<endl;
+			cout<<endl;
+		}
 };
 
 
@@ -188,35 +214,7 @@ int main(){
 	}while(opcion!=6);		
 }
 
-void registrar(Carro *c){
-	string a, b, f;
-	int d, e;
-	cout<<endl<<"  Introduce la marca del vehiculo: ";
-	fflush(stdin);getline(cin,a);
-	c->setmarca(a);
-	cout<<endl<<"  Introduce el modelo del vehiculo: ";
-	fflush(stdin);getline(cin, b);
-	c->setmodelo(b);
-	cout<<endl<<"  Introduce el motor del vehiculo: ";
-	fflush(stdin);getline(cin, f);
-	c->setmotor(f);
-	cout<<endl<<"  Introduce la capacidad de pasajeros del vehiculo: ";
-	cin>>e;
-	c->setcapacidad(e);
-	cout<<endl<<"  Introduce el numero de llantas del vehiculo: ";
-	cin>>d;
-	c->setnumLlantas(d);
-	cout<<endl<<endl;
-}
 
-void mostrar(Carro *aux){
-	cout<<endl<<"  Marca: "<<aux->getmarca()<<endl;
-	cout<<"  Modelo: "<<aux->getmodelo()<<endl;
-	cout<<"  Capacidad de pasajeros: "<<aux->getcapacidad()<<endl;
-	cout<<"  Motor: "<<aux->getmotor()<<endl;
-	cout<<"  Numero de llantas: "<<aux->getnumLlantas()<<endl;
-	cout<<endl;
-}
 
 ////Archivo-Codigo22
 //#include<conio.h>
