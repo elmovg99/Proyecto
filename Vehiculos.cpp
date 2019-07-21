@@ -218,3 +218,151 @@ void mostrar(Carro *aux){
 	cout<<endl;
 }
 
+////Archivo-Codigo22
+//#include<conio.h>
+//#include<stdlib.h>
+//#include<fstream>
+//#include<iostream>
+//using namespace std;
+//
+//class Persona{
+//	private:
+//		string nombre;
+//		string direccion;
+//		int telefono;
+//	public:
+//		Persona();
+//		Persona(string, string, int);
+//		void setNombre(string);
+//		void setDireccion(string);
+//		void setTelefon(int);
+//		string getNombre();
+//		string getDireccion();
+//		long getTelefono();
+//};
+//
+//class Archivo{
+//	public:
+//		void crearArchivo();
+//		void agregarPersona(Persona *);
+//		void mostrarContenido();
+//		void buscarPersona();
+//		
+//};
+//
+//void Archivo::crearArchivo(){
+//	ofstream archivo;
+//	archivo.open("personas.dat",ios::out | ios::app);
+//	if(!archivo){
+//		cout<<"Error al abrir el archivo"<<endl;
+//	}
+//	archivo.close();//importante cerrar o el archivo se dañara
+//}
+//
+//void registrarPersona(Persona *); 
+//
+//
+//void Archivo::agregarPersona(Persona *p){
+//	ofstream archivo;
+//	archivo.open("personas.dat",ios::app);
+//	if(!archivo){
+//		cout<<"Error al abrir el archivo"<<endl;
+//	}else{
+//		archivo.write((char *)&*p, sizeof(*p));//puntero hacia el bloque de memoria y tamaño del archivo
+//	    }
+//	archivo.close();
+//}
+//void Archivo::mostrarContenido(){//Debemos saber que, para  mostrar, se abrirá primero el archivo, y este, pasará toda la informacion a la clase
+//	ifstream archivo("personas.dat"); // después, ya con la informacion en la clase, podremos imprimir medinte ella
+//	Persona *p =new Persona();//se inicilaza nuevamente la clase persona para que sea rellenada por el archivo
+//	if(archivo.good()){
+//		while(!archivo.eof()){//mientrar archivo no llegue al final
+//			archivo.read((char *)&*p,sizeof(*p));
+//			if(archivo.eof())//salir si el archivo llego al final
+//			break;//ya ha llegado al final. ya no hay nada que mostrar
+//			cout<<"Nombre: "<<p->getNombre()<<endl;
+//			cout<<"direccion: "<<p->getDireccion()<<endl;
+//			cout<<"Telefono: "<<p->getTelefono()<<endl;
+//		}
+//	}else
+//		cout<<"Archivo vacio"<<endl; 
+//}
+//void Archivo::buscarPersona(){
+//	fstream archivo("personas.dat",ios::in | ios::out);
+//	Persona *p =new Persona();
+//	string buscarNom,nom, dir;
+//	long int posicion=0;
+//	int mod=0,tel;
+//	if(!archivo){
+//		cout<<"Error al abrir el archivo"<<endl;
+//	}else{
+//		cout<<"Nombre a buscar: ";
+//		fflush(stdin); getline(cin,buscarNom);
+//		while(!archivo.eof()){
+//			archivo.read((char *)&*p,sizeof(*p));
+//			posicion=archivo.tellp();
+//			if(p->getNombre()==buscarNom){
+//				cout<<"Nombre encontrado"<<endl;
+//				cout<<"Modifacar los datos?(1=Sí,2=No)"<<endl;
+//				cin>>mod;
+//				if(mod==1){
+//					archivo.seekp((posicion-sizeof(*p)),ios::beg);
+//					cout<<"Nombre: ";
+//					cin>>nom;
+//					p->setNombre(nom);
+//					cout<<"Direccion: ";
+//					cin>>dir;
+//					p->setDireccion(dir);
+//					cout<<"Telefono: ";
+//					cin>>tel;
+//					p->setTelefon(tel);
+//					archivo.write((char *)&*p,sizeof(*p));
+//					cout<<"Datos actualizados"<<endl;
+//					
+//				}//if-mod
+//			}//if-comparación
+//		}//while
+//	}//else-Archivo
+//	archivo.close();
+//}//Métod
+//int main(){
+//	Archivo a;
+//	Persona *obj =new Persona();
+//	int op=0;
+//	a.crearArchivo();
+//	do{
+//		//menu opciones
+//		cout<<"1.-registra ersona"<<endl;
+//		cout<<"2.-Mostar daros"<<endl;
+//		cout<<"3.-buscar Persona"<<endl;
+//		cout<<"4.-Salir"<<endl;
+//		cout<<"Opciion: ";
+//		cin>>op;
+//		switch(op){
+//			case 1: registrarPersona(&obj);
+//			        a.agregarPersona(&obj);
+//			break;
+//			case 2: a.mostrarContenido();
+//			break;
+//			case 3: a.buscarPersona();
+//			break;
+//		}
+//	}while(op!=4);
+//getch();
+//return(0);	
+//}
+//void registrarPersona(Persona *p){
+//	string n,d;
+//	int tel;
+//	
+//	cout<<"Escribe el nombre ";
+//	fflush(stdin); getline(cin,n);
+//	p->setNombre(n);
+//	cout<<"Escribe la direccion ";
+//	fflush(stdin); getline(cin,d);
+//	p->setDireccion(d);
+//	cout<<"Digita el Telefono ";
+//	cin>>tel;
+//	p->setTelefon(tel);
+//}
+
