@@ -233,6 +233,121 @@ class Lista{
 			cout<<endl;
 		}
 };
+//Inicio de la Clase venta(Lamada Nodo) con estructura y funciones
+typedef struct Comprador{
+	string nombre;
+	int telefono;
+	string direccion;
+}Comprador;
+//venta
+class Nodo{
+	private: Comprador comp;
+	private: float precio;
+	private: string fecha;
+	public: Nodo *sig;
+	public: Nodo(){
+		this->comp.nombre="x";
+		this->comp.telefono=0;
+		this->comp.direccion="x";
+		this->precio=0;
+		this->fecha="x";
+		this->sig=NULL;
+	}
+	public: Nodo(string x, int y, string z, float a, string b){
+		this->comp.nombre=x;
+		this->comp.telefono=y;
+		this->comp.direccion=z;
+		this->precio=a;
+		this->fecha=b;
+		this->sig=NULL;
+	}
+	public: void setNombre(string x){
+		this->comp.nombre=x;
+	}
+	public: void setTelefono(int y){
+		this->comp.telefono=y;
+	}
+	public: void setDireccion(string z){
+		this->comp.direccion=z;
+	}
+	public: void setPrecio(float a){
+		this->precio=a;
+	}
+	public: void setFecha(string b){
+		this->fecha=b;
+	}
+	public: string getNombre(){
+		return this->comp.nombre;
+	}
+	public: int getTelfono(){
+		return this->comp.telefono;
+	}
+	public: string getDireccion(){
+		return this->comp.direccion;
+	}
+	public: float getPrecio(){
+		return this->precio;
+	}
+	public: string grtFecha(){
+		return this->fecha;
+	}
+
+};
+
+
+class Cola{
+	private: Nodo *cola;
+	public: Cola(){
+		this->cola=NULL;
+	}
+	public: void encolar(string _x,int _y,string _z,float _a,string _b ){
+	Nodo *nuevo =new Nodo(_x,_y,_z,_a,_b); //personalizado
+		if(cola==NULL)
+		    cola=nuevo;
+		else{
+			Nodo *aux=new Nodo(_x,_y,_z,_a,_b);//por Default
+			aux=cola;
+			while(aux->sig!=NULL)
+			   aux=aux->sig;
+			aux->sig=nuevo;
+		
+	    }
+   }
+	public: void recorrercola(){
+		if(cola==NULL)
+		   cout<<"la cola esta Vacia"<<endl;
+		else{
+			Nodo *aux=new Nodo();
+			aux=cola;
+			while(aux->sig!=NULL){
+				cout<<aux->getNombre()<<endl;
+	    		cout<<aux->getTelfono()<<endl;
+	    		cout<<aux->getDireccion()<<endl;
+	    		cout<<aux->getPrecio()<<endl;
+	    		cout<<aux->grtFecha()<<endl;
+				aux=aux->sig;
+			}
+			cout<<aux->getNombre()<<endl;
+			cout<<aux->getTelfono()<<endl;
+			cout<<aux->getDireccion()<<endl;
+			cout<<aux->getPrecio()<<endl;
+			cout<<aux->grtFecha()<<endl;
+		}
+	}
+
+	public: void Desencolar(){
+			Nodo *aux=cola;
+			
+			if(cola==NULL)//Al entrar aquí significa que sí lo encontró
+                cout<<"No hay nodos en la Pila";
+				else{
+				
+				cola=aux->sig;
+				free(aux);
+				cout<<"Nodo eliminado"<<endl;
+		    }
+	}
+};//Fin de la Clase venta(Lamada Nodo) con estructura y funciones
 
 void Eliminar(Lista*);
 
