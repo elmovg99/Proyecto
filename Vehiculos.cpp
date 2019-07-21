@@ -7,6 +7,125 @@
 #include "stdio.h"
 
 using namespace std;
+//En el ejmplo la clase a asociar va al principio para poder declarr el objeto de venta en la de lista
+//Inicio de la Clase venta(Lamada Nodo) con estructura y funciones
+typedef struct Comprador{
+	string nombre;
+	int telefono;
+	string direccion;
+}Comprador;
+//venta
+class Nodo{
+	private: Comprador comp;
+	private: float precio;
+	private: string fecha;
+	public: Nodo *sig;
+	public: Nodo(){
+		this->comp.nombre="x";
+		this->comp.telefono=0;
+		this->comp.direccion="x";
+		this->precio=0;
+		this->fecha="x";
+		this->sig=NULL;
+	}
+	public: Nodo(string x, int y, string z, float a, string b){
+		this->comp.nombre=x;
+		this->comp.telefono=y;
+		this->comp.direccion=z;
+		this->precio=a;
+		this->fecha=b;
+		this->sig=NULL;
+	}
+	public: void setNombre(string x){
+		this->comp.nombre=x;
+	}
+	public: void setTelefono(int y){
+		this->comp.telefono=y;
+	}
+	public: void setDireccion(string z){
+		this->comp.direccion=z;
+	}
+	public: void setPrecio(float a){
+		this->precio=a;
+	}
+	public: void setFecha(string b){
+		this->fecha=b;
+	}
+	public: string getNombre(){
+		return this->comp.nombre;
+	}
+	public: int getTelfono(){
+		return this->comp.telefono;
+	}
+	public: string getDireccion(){
+		return this->comp.direccion;
+	}
+	public: float getPrecio(){
+		return this->precio;
+	}
+	public: string grtFecha(){
+		return this->fecha;
+	}
+
+};
+
+
+class Cola{
+	private: Nodo *cola;
+	public: Cola(){
+		this->cola=NULL;
+	}
+	public: void encolar(string _x,int _y,string _z,float _a,string _b ){
+	Nodo *nuevo =new Nodo(_x,_y,_z,_a,_b); //personalizado
+		if(cola==NULL)
+		    cola=nuevo;
+		else{
+			Nodo *aux=new Nodo(_x,_y,_z,_a,_b);//por Default
+			aux=cola;
+			while(aux->sig!=NULL)
+			   aux=aux->sig;
+			aux->sig=nuevo;
+		
+	    }
+   }
+	public: void recorrercola(){
+		if(cola==NULL)
+		   cout<<"la cola esta Vacia"<<endl;
+		else{
+			Nodo *aux=new Nodo();
+			aux=cola;
+			cout<<"||VENTAS REGISTRADAS||"<<endl;
+			while(aux->sig!=NULL){
+				cout<<"Nombre: "<<aux->getNombre()<<endl;
+	    		cout<<"Telefono: "<<aux->getTelfono()<<endl;
+	    		cout<<"Direccion: "<<aux->getDireccion()<<endl;
+	    		cout<<"Precio: "<<aux->getPrecio()<<endl;
+	    		cout<<"Fecha: "<<aux->grtFecha()<<endl;
+	    		cout<<endl;
+				aux=aux->sig;
+			}
+			cout<<"Nombre: "<<aux->getNombre()<<endl;
+			cout<<"Telefono: "<<aux->getTelfono()<<endl;
+			cout<<"Direccion: "<<aux->getDireccion()<<endl;
+			cout<<"Precio: "<<aux->getPrecio()<<endl;
+			cout<<"Fecha: "<<aux->grtFecha()<<endl;
+		}
+	}
+
+	public: void Desencolar(){
+			Nodo *aux=cola;
+			
+			if(cola==NULL)//Al entrar aquí significa que sí lo encontró
+                cout<<"No hay nodos en la Pila";
+				else{
+				
+				cola=aux->sig;
+				free(aux);
+				cout<<"Nodo eliminado"<<endl;
+		    }
+	}
+};//Fin de la Clase venta(Lamada Nodo) con estructura y funciones
+
 
 class Vehiculo{
 	protected:
@@ -43,8 +162,9 @@ class Carro: public Vehiculo{
 	private:
 		string modelo;
 		string marca;
-	public:
-		Carro *sig;
+		 
+	public:         
+		Carro *sig;                                                                                                                             
 		Carro *ant;
 		Carro():Vehiculo(){
 			this->numLlantas=0;
@@ -54,6 +174,7 @@ class Carro: public Vehiculo{
 			this->marca="x";
 			this->sig=NULL;
 			this->ant=NULL;
+		    
 		}
 		void setmodelo(string d){
 			this->modelo=d;
@@ -67,14 +188,20 @@ class Carro: public Vehiculo{
 		string getmarca(){
 			return this->marca;
 		}
+
 };
 
 class Lista{
 	private:
-		Carro *lista;
+		Nodo *venta;
+		Carro *lista;//Creación de objeto por asociar
 	public:
 		Lista(){
 			lista=NULL;
+			venta= new Nodo();//inicialización del objeto con new
+		}
+		public:	void incluye(Nodo *v){//Definición del método que asocia
+			          this->venta=v;
 		}
 		public: void agregarCarro(){
 			Carro *nuevo = new Carro();
@@ -233,131 +360,19 @@ class Lista{
 			cout<<endl;
 		}
 };
-//Inicio de la Clase venta(Lamada Nodo) con estructura y funciones
-typedef struct Comprador{
-	string nombre;
-	int telefono;
-	string direccion;
-}Comprador;
-//venta
-class Nodo{
-	private: Comprador comp;
-	private: float precio;
-	private: string fecha;
-	public: Nodo *sig;
-	public: Nodo(){
-		this->comp.nombre="x";
-		this->comp.telefono=0;
-		this->comp.direccion="x";
-		this->precio=0;
-		this->fecha="x";
-		this->sig=NULL;
-	}
-	public: Nodo(string x, int y, string z, float a, string b){
-		this->comp.nombre=x;
-		this->comp.telefono=y;
-		this->comp.direccion=z;
-		this->precio=a;
-		this->fecha=b;
-		this->sig=NULL;
-	}
-	public: void setNombre(string x){
-		this->comp.nombre=x;
-	}
-	public: void setTelefono(int y){
-		this->comp.telefono=y;
-	}
-	public: void setDireccion(string z){
-		this->comp.direccion=z;
-	}
-	public: void setPrecio(float a){
-		this->precio=a;
-	}
-	public: void setFecha(string b){
-		this->fecha=b;
-	}
-	public: string getNombre(){
-		return this->comp.nombre;
-	}
-	public: int getTelfono(){
-		return this->comp.telefono;
-	}
-	public: string getDireccion(){
-		return this->comp.direccion;
-	}
-	public: float getPrecio(){
-		return this->precio;
-	}
-	public: string grtFecha(){
-		return this->fecha;
-	}
-
-};
-
-
-class Cola{
-	private: Nodo *cola;
-	public: Cola(){
-		this->cola=NULL;
-	}
-	public: void encolar(string _x,int _y,string _z,float _a,string _b ){
-	Nodo *nuevo =new Nodo(_x,_y,_z,_a,_b); //personalizado
-		if(cola==NULL)
-		    cola=nuevo;
-		else{
-			Nodo *aux=new Nodo(_x,_y,_z,_a,_b);//por Default
-			aux=cola;
-			while(aux->sig!=NULL)
-			   aux=aux->sig;
-			aux->sig=nuevo;
-		
-	    }
-   }
-	public: void recorrercola(){
-		if(cola==NULL)
-		   cout<<"la cola esta Vacia"<<endl;
-		else{
-			Nodo *aux=new Nodo();
-			aux=cola;
-			while(aux->sig!=NULL){
-				cout<<aux->getNombre()<<endl;
-	    		cout<<aux->getTelfono()<<endl;
-	    		cout<<aux->getDireccion()<<endl;
-	    		cout<<aux->getPrecio()<<endl;
-	    		cout<<aux->grtFecha()<<endl;
-				aux=aux->sig;
-			}
-			cout<<aux->getNombre()<<endl;
-			cout<<aux->getTelfono()<<endl;
-			cout<<aux->getDireccion()<<endl;
-			cout<<aux->getPrecio()<<endl;
-			cout<<aux->grtFecha()<<endl;
-		}
-	}
-
-	public: void Desencolar(){
-			Nodo *aux=cola;
-			
-			if(cola==NULL)//Al entrar aquí significa que sí lo encontró
-                cout<<"No hay nodos en la Pila";
-				else{
-				
-				cola=aux->sig;
-				free(aux);
-				cout<<"Nodo eliminado"<<endl;
-		    }
-	}
-};//Fin de la Clase venta(Lamada Nodo) con estructura y funciones
 
 void Eliminar(Lista*);
+void menuVenta(Lista *);
 
 int main(){
 	char opcion;
 	string a;
+
 	Lista *list = new Lista();
+	
 	do{
 		system("cls");
-		cout<<"  1)Agregar\n  2)Recorrer\n  3)Editar\n  4)Eliminar\n  5)Ordenar\n  6)Salir\n\n  Opcion: ";
+		cout<<"  1)Agregar Veiculo\n  2)Recorrer\n  3)Editar\n  4)Eliminar\n  5)Registar Venta\n   6)Salir\n\n  Opcion: ";
 		cin>>opcion;
 		system("cls");
 		switch(opcion){
@@ -377,6 +392,7 @@ int main(){
 				Eliminar(list);
 				break;
 			case '5':
+				menuVenta(list);
 				break;
 			case '6':
 				cout<<endl<<"  Saliste del programa"<<endl;
@@ -410,7 +426,63 @@ void Eliminar(Lista *list){
 			break;
 	}
 }
+void menuVenta(Lista *_list ){
+		Cola *co =new Cola();
+		Nodo *_vent =new Nodo();
+	    _list->incluye(_vent);//Asociacion. en vio del objeto al la clase Lista
+	int op,y;
+	string x,z,b;
+	float a;
+	do{	printf(" ||VENTA||");
+	printf("\n1.-Registar Venta");
+	printf("\n2.-Imprimir Datos de la venta");
+	printf("\n3.-Borrar Venta");
+	printf("\n4.-salir");
+    printf("\nOpcion: ");
+    scanf("%i",&op);
+    switch(op){
+    	case 1:
+    	system("cls");
+    	cout<<"\nEscriba el Nombre del Comprador "<<endl;
+    	fflush(stdin); getline(cin,x);
+      
+    	cout<<"\nEscriba el Telefono del Comprador "<<endl;
+    	cin>>y;
+        
+    	cout<<"\nEscriba la direccion del Comprador "<<endl;
+    	fflush(stdin); getline(cin,z);
+       
+    	cout<<"\nEscriba el Pecio de Veiculo "<<endl;
+    	cin>>a;
+    
+    	cout<<"\nEscriba la Fecha de la venta "<<endl;
+    	fflush(stdin); getline(cin,b);
+    	
+        co->encolar(x,y,z,a,b);
+        
+    	printf("\n");
+    	system("pause");
+    	break;
+    	case 2:
+		system("cls");	
+    	co->recorrercola();
+    	printf("\n");
+    	system("pause");
+    	break;
+    	case 3:
+    	system("cls");
+    	co->Desencolar();
+    	system("pause");
+    	break;
 
+    	
+	}
+
+	
+	system("cls");
+	}while(op!=4);
+		
+	}
 ////Archivo-Codigo22
 //#include<conio.h>
 //#include<stdlib.h>
