@@ -1,6 +1,7 @@
-//Actividad Integradora 6666
+//Actividad Integradora
 
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -64,6 +65,7 @@ class Carro: public Vehiculo{
 class Nodo:public Vehiculo{
 	public:
 		Nodo *sig;
+		Nodo *ant;
 		Carro *datos;
 		Nodo(){
 			this->sig=NULL;
@@ -97,16 +99,21 @@ class Lista{
 		Lista(){
 			lista=NULL;
 		}
-		void agregarNodo(Carro *c){
+		public: void agregarNodo(Carro *c){
 			Nodo *nuevo = new Nodo(c);
-			if(lista==NULL)
+			if(lista==NULL){
 				lista=nuevo;
+			}
 			else{
 				Nodo *aux=new Nodo();
+				Nodo *ant= new Nodo();
 				aux=lista;
-				while(aux->sig!=NULL)
+				while(aux->sig!=NULL){
+					ant=aux;
 					aux = aux->sig;
+				}
 				aux->sig=nuevo;
+				nuevo->ant=aux;
 			}
 		}
 			
@@ -127,6 +134,47 @@ class Lista{
 				}
 			}
 		}
+	public: void eliminarNodo(int x){
+		Nodo *aux=lista;
+		Nodo *ant=NULL;
+		while((aux!=NULL)&&(aux->getNum()!=x)){
+			ant=aux;
+			aux=aux->sig;
+		}
+		if(aux!=NULL){
+			if(ant!=NULL){
+				ant->sig=aux->sig;
+				aux->sig->ant=aux->ant;
+			}
+			else
+				lista=aux->sig;
+			free(aux);
+			cout<<"Nodo eliminado"<<endl<<endl;
+		}
+		else
+			cout<<"El valor no esta en la lista"<<endl<<endl;
+	}
+	public: void buscarValor(int x){
+		Nodo *aux = new Nodo();
+		int editar=0;
+		aux=lista;
+		while(aux!=NULL&&aux->getNum()!=x)
+			aux=aux->sig;
+		if(aux==NULL)
+			cout<<endl<<"El valor no esta en la lista"<<endl<<endl;
+		else{
+			cout<<endl<<"	Valor encontrado"<<endl<<endl;
+			cout<<"Modifica valor?(Si=1, No=0)\nOpcion: "; 
+			cin>>editar;
+			cout<<endl;
+			if(editar==1){
+				cout<<"Nuevo valor: ";
+				cin>>x;
+				cout<<endl;
+				aux->setNum(x);
+			}
+		}
+	}
 };
 
 void registrar(Carro *);
