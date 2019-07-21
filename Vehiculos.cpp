@@ -95,7 +95,7 @@ class Lista{
 			}
 		}
 			
-		void recorrerLista(){
+		string recorrerLista(){
 			char ind;
 			if(lista==NULL)
 				cout<<"  Lista vacia"<<endl;
@@ -111,28 +111,40 @@ class Lista{
 					ind=getche();
 					aux=(((ind=='a'||ind=='A')&&aux->ant!=NULL)?aux->ant:((ind=='d'||ind=='D')&&aux->sig!=NULL)?aux->sig:aux);
 				}while(ind != 'S' && ind != 's');
+				return aux->getmodelo();
 			}
+			return "undefine";
 		}
-//		void eliminarNodo(){
-//		Carro *aux=lista;
-//		Carro *ant=NULL;
-//		while((aux!=NULL)&&(aux->getNum()!=x)){
-//			ant=aux;
-//			aux=aux->sig;
-//		}
-//		if(aux!=NULL){
-//			if(ant!=NULL){
-//				ant->sig=aux->sig;
-//				aux->sig->ant=aux->ant;
-//			}
-//			else
-//				lista=aux->sig;
-//			free(aux);
-//			cout<<"Nodo eliminado"<<endl<<endl;
-//		}
-//		else
-//			cout<<"El valor no esta en la lista"<<endl<<endl;
-//	}
+		void eliminarNodo(string z){
+		Carro *aux=lista;
+		Carro *ant=NULL;
+		while((aux!=NULL)&&(aux->getmodelo()!=z)){
+			ant=aux;
+			aux=aux->sig;
+		}
+		if(aux!=NULL){
+			if(ant!=NULL&&aux->sig!=NULL){
+				ant->sig=aux->sig;
+				aux->sig->ant=aux->ant;
+			}
+			else if(ant==NULL&&aux->sig!=NULL){
+				lista=aux->sig;
+				lista->ant=NULL;
+			}
+			else if(ant!=NULL&&aux->sig==NULL){
+				ant->sig=NULL;
+			}
+			else{
+				lista=NULL;
+				aux=NULL;
+				free(lista);
+			}
+			free(aux);
+			cout<<"Carro eliminado"<<endl<<endl;
+		}
+		else
+			cout<<"El Carro no esta en la lista"<<endl<<endl;
+	}
 //	public: void buscarValor(int x){
 //		Nodo *aux = new Nodo();
 //		int editar=0;
@@ -185,9 +197,10 @@ class Lista{
 		}
 };
 
+void Eliminar(Lista*);
 
 int main(){
-	int opcion;
+	char opcion;
 	Lista *list = new Lista();
 	do{
 		system("cls");
@@ -195,26 +208,51 @@ int main(){
 		cin>>opcion;
 		system("cls");
 		switch(opcion){
-			case 1:
+			case '1':
 				list->agregarCarro();
 				break;
-			case 2:
+			case '2':
 				list->recorrerLista();
 				break;
-			case 3:
+			case '3':
 				break;
-			case 4:
+			case '4':
+				Eliminar(list);
 				break;
-			case 5:
+			case '5':
 				break;
-			case 6:
+			case '6':
 				cout<<endl<<"  Saliste del programa"<<endl;
 				break;
+			default:
+				break;
 		}
-	}while(opcion!=6);		
+	}while(opcion!='6');		
 }
 
-
+void Eliminar(Lista *list){
+	char opc;
+	string z;
+	cout << "                            ELIMINAR" << endl;
+	cout << "  1-Eliminar por busqueda manual" << endl;
+	cout << "  2-Eliminar por modelo" << endl;
+	cout << "  3-Regresar" << endl << "  Opcion: ";
+	fflush(stdin);cin >> opc;fflush(stdin);
+	system("cls");
+	switch(opc){
+		case '1':
+			list->eliminarNodo(list->recorrerLista());
+			break;
+		case '2':
+			cout << "  Anote el modelo de el carro que dese eliminar " << endl << "  Modelo: ";
+			fflush(stdin);getline(cin,z);
+			list->eliminarNodo(z);
+			break;
+		case '3':
+		default:
+			break;
+	}
+}
 
 ////Archivo-Codigo22
 //#include<conio.h>
@@ -363,5 +401,3 @@ int main(){
 //	cin>>tel;
 //	p->setTelefon(tel);
 //}
-hola;
-
