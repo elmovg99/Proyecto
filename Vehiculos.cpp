@@ -195,9 +195,11 @@ class Lista{
 	private:
 		Nodo *venta;
 		Carro *lista;//Creación de objeto por asociar
+		Carro *lista2;
 	public:
 		Lista(){
 			lista=NULL;
+			lista2=NULL;
 			venta= new Nodo();//inicialización del objeto con new
 		}
 		public:	void incluye(Nodo *v){//Definición del método que asocia
@@ -221,7 +223,6 @@ class Lista{
 				nuevo->ant=aux;
 			}
 		}
-			
 		string recorrerLista(){
 			char ind;
 			if(lista==NULL){
@@ -245,34 +246,88 @@ class Lista{
 			return "undefine";
 		}
 		void eliminarNodo(string z){
-		Carro *aux=lista;
-		Carro *ant=NULL;
-		while((aux!=NULL)&&(aux->getmodelo()!=z)){
-			ant=aux;
-			aux=aux->sig;
+			Carro *aux=lista;
+			Carro *ant=NULL;
+			while((aux!=NULL)&&(aux->getmodelo()!=z)){
+				ant=aux;
+				aux=aux->sig;
+			}
+			if(aux!=NULL){
+				if(ant!=NULL&&aux->sig!=NULL){
+					ant->sig=aux->sig;
+					aux->sig->ant=aux->ant;
+				}
+				else if(ant==NULL&&aux->sig!=NULL){
+					lista=aux->sig;
+					lista->ant=NULL;
+				}
+				else if(ant!=NULL&&aux->sig==NULL){
+					ant->sig=NULL;
+				}
+				else{
+					lista=NULL;
+					aux=NULL;
+					free(lista);
+				}
+				free(aux);
+				cout<<"Carro eliminado"<<endl<<endl;
+			}
+			else
+				cout<<"El Carro no esta en la lista"<<endl<<endl;
+	}
+	void acomodar(){
+		if(lista==NULL){
+			cout<<"  Lista vacia"<<endl;
+			getch();
 		}
-		if(aux!=NULL){
-			if(ant!=NULL&&aux->sig!=NULL){
-				ant->sig=aux->sig;
-				aux->sig->ant=aux->ant;
+		else{
+			Carro *aux=lista;
+			Carro *ante=NULL;
+			while(aux!=NULL){
+				ante=aux;
+				aux=aux->sig;
+				insertarNodo(ante);
 			}
-			else if(ant==NULL&&aux->sig!=NULL){
-				lista=aux->sig;
-				lista->ant=NULL;
+			lista=lista2;
+		}
+	}
+	void insertarNodo(Carro *x){
+		Carro *ne= new Carro();
+		ne=x;
+		if(lista2==NULL)
+		lista2=ne;
+		else{
+			Carro *aux=lista2;
+			Carro *ante=NULL;
+			while((aux!=NULL)&&(aux->getmodelo()<=ne->getmodelo())){
+				ante=aux;
+				aux=aux->sig;
 			}
-			else if(ant!=NULL&&aux->sig==NULL){
-				ant->sig=NULL;
+			if(aux!=NULL){
+				if(ante!=NULL){
+					ante->sig=ne;
+					ne->ant=ante;
+					ne->sig=aux;
+					aux->ant=ne;
+				}
+				else{
+					ante=ne;
+					lista2=ante;
+					ante->sig=aux;
+					aux->ant=ante;
+					ante->ant=NULL;
+				}
 			}
 			else{
-				lista=NULL;
-				aux=NULL;
-				free(lista);
+				aux=ne;	
+				ante->sig=aux;
+				aux->ant=ante;
+				aux->sig=NULL;
 			}
-			free(aux);
-			cout<<"Carro eliminado"<<endl<<endl;
+			if(aux->sig==lista2||ne->sig==lista2||ante->sig==lista2){
+				aux->sig=NULL;
+			}
 		}
-		else
-			cout<<"El Carro no esta en la lista"<<endl<<endl;
 	}
 	public: void buscarValor(string x){
 		Carro *aux = new Carro();
@@ -333,22 +388,22 @@ class Lista{
 		void registrar(Carro *c){
 			string a, b, f;
 			int d, e;
-			cout<<endl<<"  Introduce la marca del vehiculo: ";
+			cout<<"  Introduce la marca del vehiculo: ";
 			fflush(stdin);getline(cin,a);
 			c->setmarca(a);
-			cout<<endl<<"  Introduce el modelo del vehiculo: ";
+			cout<<"  Introduce el modelo del vehiculo: ";
 			fflush(stdin);getline(cin, b);
 			c->setmodelo(b);
-			cout<<endl<<"  Introduce el motor del vehiculo: ";
+			cout<<"  Introduce el motor del vehiculo: ";
 			fflush(stdin);getline(cin, f);
 			c->setmotor(f);
-			cout<<endl<<"  Introduce la capacidad de pasajeros del vehiculo: ";
+			cout<<"  Introduce la capacidad de pasajeros del vehiculo: ";
 			cin>>e;
 			c->setcapacidad(e);
-			cout<<endl<<"  Introduce el numero de llantas del vehiculo: ";
+			cout<<"  Introduce el numero de llantas del vehiculo: ";
 			cin>>d;
 			c->setnumLlantas(d);
-			cout<<endl<<endl;
+			cout<<endl;
 		}
 		
 		void mostrar(Carro *aux){
@@ -372,7 +427,7 @@ int main(){
 	
 	do{
 		system("cls");
-		cout<<"  1)Agregar Veiculo\n  2)Recorrer\n  3)Editar\n  4)Eliminar\n  5)Registar Venta\n   6)Salir\n\n  Opcion: ";
+		cout<<"  1)Agregar Veiculo\n  2)Recorrer\n  3)Editar\n  4)Eliminar\n  5)Ordenar \n  6)Registar Venta\n  7)Salir\n\n  Opcion: ";
 		cin>>opcion;
 		system("cls");
 		switch(opcion){
@@ -392,21 +447,24 @@ int main(){
 				Eliminar(list);
 				break;
 			case '5':
-				menuVenta(list);
+				list->acomodar();
 				break;
 			case '6':
+				menuVenta(list);
+				break;
+			case '7':
 				cout<<endl<<"  Saliste del programa"<<endl;
 				break;
 			default:
 				break;
 		}
-	}while(opcion!='6');		
+	}while(opcion!='7');		
 }
 
 void Eliminar(Lista *list){
 	char opc;
 	string z;
-	cout << "                            ELIMINAR" << endl;
+	cout << "                           || ELIMINAR ||" << endl;
 	cout << "  1-Eliminar por busqueda manual" << endl;
 	cout << "  2-Eliminar por modelo" << endl;
 	cout << "  3-Regresar" << endl << "  Opcion: ";
