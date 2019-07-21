@@ -116,10 +116,9 @@ class Lista{
 				}while(ind != 'S' && ind != 's');
 			}
 		}
-		
-//	public: void eliminarNodo(int x){
-//		Nodo *aux=lista;
-//		Nodo *ant=NULL;
+//		void eliminarNodo(){
+//		Carro *aux=lista;
+//		Carro *ant=NULL;
 //		while((aux!=NULL)&&(aux->getNum()!=x)){
 //			ant=aux;
 //			aux=aux->sig;
@@ -160,7 +159,6 @@ class Lista{
 //	}
 };
 
-void registrar(Carro *);
 
 int main(){
 	int opcion;
@@ -212,11 +210,11 @@ void registrar(Carro *c){
 }
 
 void mostrar(Carro *aux){
-			cout<<endl<<"  Marca: "<<aux->getmarca()<<endl;
-			cout<<"  Modelo: "<<aux->getmodelo()<<endl;
-			cout<<"  Capacidad de pasajeros: "<<aux->getcapacidad()<<endl;
-			cout<<"  Motor: "<<aux->getmotor()<<endl;
-			cout<<"  Numero de llantas: "<<aux->getnumLlantas()<<endl;
-			cout<<endl;
-		}
+	cout<<endl<<"  Marca: "<<aux->getmarca()<<endl;
+	cout<<"  Modelo: "<<aux->getmodelo()<<endl;
+	cout<<"  Capacidad de pasajeros: "<<aux->getcapacidad()<<endl;
+	cout<<"  Motor: "<<aux->getmotor()<<endl;
+	cout<<"  Numero de llantas: "<<aux->getnumLlantas()<<endl;
+	cout<<endl;
+}
 
