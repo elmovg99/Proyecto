@@ -5,128 +5,9 @@
 #include "string.h"
 #include "conio.h"
 #include "stdio.h"
+#include<fstream>
 
 using namespace std;
-//En el ejmplo la clase a asociar va al principio para poder declarr el objeto de venta en la de lista
-//Inicio de la Clase venta(Lamada Nodo) con estructura y funciones
-typedef struct Comprador{
-	string nombre;
-	int telefono;
-	string direccion;
-}Comprador;
-//venta
-class Nodo{
-	private: Comprador comp;
-	private: float precio;
-	private: string fecha;
-	public: Nodo *sig;
-	public: Nodo(){
-		this->comp.nombre="N";
-		this->comp.telefono=0;
-		this->comp.direccion="N";
-		this->precio=0;
-		this->fecha="N";
-		this->sig=NULL;
-	}
-	public: Nodo(string x, int y, string z, float a, string b){
-		this->comp.nombre=x;
-		this->comp.telefono=y;
-		this->comp.direccion=z;
-		this->precio=a;
-		this->fecha=b;
-		this->sig=NULL;
-	}
-	public: void setNombre(string x){
-		this->comp.nombre=x;
-	}
-	public: void setTelefono(int y){
-		this->comp.telefono=y;
-	}
-	public: void setDireccion(string z){
-		this->comp.direccion=z;
-	}
-	public: void setPrecio(float a){
-		this->precio=a;
-	}
-	public: void setFecha(string b){
-		this->fecha=b;
-	}
-	public: string getNombre(){
-		return this->comp.nombre;
-	}
-	public: int getTelfono(){
-		return this->comp.telefono;
-	}
-	public: string getDireccion(){
-		return this->comp.direccion;
-	}
-	public: float getPrecio(){
-		return this->precio;
-	}
-	public: string grtFecha(){
-		return this->fecha;
-	}
-
-};
-
-
-class Cola{
-	private: Nodo *cola;
-	public: Cola(){
-		this->cola=NULL;
-	}
-	public: void encolar(string _x,int _y,string _z,float _a,string _b ){
-	Nodo *nuevo =new Nodo(_x,_y,_z,_a,_b); //personalizado
-		if(cola==NULL)
-		    cola=nuevo;
-		else{
-			Nodo *aux=new Nodo(_x,_y,_z,_a,_b);//por Default
-			aux=cola;
-			while(aux->sig!=NULL)
-			   aux=aux->sig;
-			aux->sig=nuevo;
-		
-	    }
-   }
-	public: void recorrercola(){
-		if(cola==NULL)
-		   cout<<"la cola esta Vacia"<<endl;
-		else{
-			Nodo *aux=new Nodo();
-			aux=cola;
-			cout<<"             ||VENTAS REGISTRADAS||"<<endl;
-			while(aux->sig!=NULL){
-				cout<<"  Nombre: "<<aux->getNombre()<<endl;
-	    		cout<<"  Telefono: "<<aux->getTelfono()<<endl;
-	    		cout<<"  Direccion: "<<aux->getDireccion()<<endl;
-	    		cout<<"  Precio: "<<aux->getPrecio()<<endl;
-	    		cout<<"  Fecha: "<<aux->grtFecha()<<endl;
-	    		cout<<endl;
-				aux=aux->sig;
-			}
-			cout<<"  Nombre: "<<aux->getNombre()<<endl;
-			cout<<"  Telefono: "<<aux->getTelfono()<<endl;
-			cout<<"  Direccion: "<<aux->getDireccion()<<endl;
-			cout<<"  Precio: "<<aux->getPrecio()<<endl;
-			cout<<"  Fecha: "<<aux->grtFecha()<<endl;
-		}
-	}
-
-	public: void Desencolar(){
-			Nodo *aux=cola;
-			
-			if(cola==NULL)//Al entrar aquí significa que sí lo encontró
-                cout<<"No hay nodos en la Pila";
-				else{
-				
-				cola=aux->sig;
-				free(aux);
-				cout<<"Nodo eliminado"<<endl;
-		    }
-	}
-};//Fin de la Clase venta(Lamada Nodo) con estructura y funciones
-
-
 class Vehiculo{
 	protected:
 		int numLlantas;
@@ -193,17 +74,12 @@ class Carro: public Vehiculo{
 
 class Lista{
 	private:
-		Nodo *venta;
 		Carro *lista;//Creación de objeto por asociar
 		Carro *lista2;
 	public:
 		Lista(){
-			lista=NULL;
-			lista2=NULL;
-			venta= new Nodo();//inicialización del objeto con new
-		}
-		public:	void incluye(Nodo *v){//Definición del método que asocia
-			          this->venta=v;
+			this->lista=NULL;
+			this->lista2=NULL;
 		}
 		public: void agregarCarro(){
 			Carro *nuevo = new Carro();
@@ -282,7 +158,6 @@ class Lista{
 					cout<<"El Carro no esta en la lista"<<endl<<endl;
 				}
 		}
-			
 		void eliminarNodoS(string z){
 			Carro *aux=lista;
 			Carro *ant=NULL;
@@ -313,7 +188,7 @@ class Lista{
 			else
 				cout<<"El Carro no esta en la lista"<<endl<<endl;
 	}
-	void acomodar(){
+		void acomodar(){
 		if(lista==NULL){
 			cout<<"  Lista vacia"<<endl;
 			getch();
@@ -329,7 +204,7 @@ class Lista{
 			lista=lista2;
 		}
 	}
-	void insertarNodo(Carro *x){
+		void insertarNodo(Carro *x){
 		Carro *ne= new Carro();
 		ne=x;
 		if(lista2==NULL)
@@ -444,8 +319,7 @@ class Lista{
 			cin>>d;
 			c->setnumLlantas(d);
 			cout<<endl;
-		}
-		
+		}	
 		void mostrar(Carro *aux){
 			cout<<endl<<"  Marca: "<<aux->getmarca()<<endl;
 			cout<<"  Modelo: "<<aux->getmodelo()<<endl;
@@ -456,14 +330,307 @@ class Lista{
 		}
 };
 
+typedef struct Comprador{
+	string nombre;
+	int telefono;
+	string direccion;
+}Comprador;
+//venta
+class Compra:public Lista {
+	private:
+		string fecha;
+		float precio;
+		Comprador cop;
+		Compra *sig;
+		Carro *carro;
+		
+	public:
+		Compra(){
+			this->precio=0;
+			this->sig=NULL;
+			this->fecha="X";
+			this->cop.nombre="X";
+			this->cop.direccion="X";
+			this->cop.telefono=0;
+			this->carro=NULL;
+		}
+		void setPrecio(float x){
+			this->precio=x;
+		}
+		float getPrecio(){
+			return this->precio;
+		}
+		void setFecha(string x){
+			this->fecha=x;
+		}
+		string getFecha(){
+			return this->fecha;
+		}
+		void setNombre(string x){
+			this->cop.nombre=x;
+		}
+		string getNombre(){
+			return this->cop.nombre;
+		}
+		void setDireccion(string x){
+			this->cop.direccion=x;
+		}
+		string getDireccion(){
+			return this->cop.direccion;
+		}
+		void setTelefono(int x){
+			this->cop.telefono=x;
+		}
+		int getTelefono(){
+			return this->cop.telefono;
+		}
+		Compra* getSig(){
+			return this->sig;
+		}
+		void setSig(Compra *x){
+			this->sig=x;
+		}
+		Carro* getCarro(){
+			return this->carro;
+		}
+		void setCarro(Carro *x){
+			this->carro=x;
+		}
+		Compra* creaenodo(Lista *list){
+			Compra *compra = new Compra;
+			int x;
+			float y;
+			string z;
+			system("cls");
+			cout << "                  || ENCLOAR ||"<< endl << endl;
+			cout<<"  Escriba el Nombre del Comprador ";
+			fflush(stdin); getline(cin,z);
+			compra->setNombre(z);
+			cout<<"  Escriba el Telefono del Comprador ";
+			cin>>x;
+			compra->setTelefono(x);
+			cout<<"  Escriba la direccion del Comprador ";
+			fflush(stdin); getline(cin,z);
+			compra->setDireccion(z);
+			cout<<"  Escriba el Precio de Veiculo ";
+			cin>>y;
+			compra->setPrecio(y);
+			cout<<"  Escriba la Fecha de la venta ";
+			fflush(stdin); getline(cin,z);
+			compra->setFecha(z);
+			cout << "   Escoja el carro ";
+			compra->setCarro(list->recorrerLista());
+			compra->getCarro()->setcapacidad(getCarro()->getcapacidad());
+			compra->getCarro()->setmarca(getCarro()->getmarca());
+			compra->getCarro()->setmodelo(getCarro()->getmodelo());
+			compra->getCarro()->setmotor(getCarro()->getmotor());
+			compra->getCarro()->setnumLlantas(getCarro()->getnumLlantas());
+		}
+		void mostrarCol(Compra *aux){
+			cout<<"  Nombre del Comprador "<< aux->getNombre() << endl;
+			cout<<"  Telefono del Comprador "<< aux->getTelefono() << endl;
+			cout<<"  Direccion del Comprador "<< aux->getDireccion() <<endl;
+			cout<<"  Precio de Veiculo "<< aux->getPrecio()<<endl;
+			cout<<"  Fecha de la venta "<< aux->getFecha() <<endl;
+			cout<<"  Marca: "<<aux->getCarro()->getmarca()<<endl;
+			cout<<"  Modelo: "<<aux->getCarro()->getmodelo()<<endl;
+			cout<<"  Capacidad de pasajeros: "<<aux->getCarro()->getcapacidad()<<endl;
+			cout<<"  Motor: "<<aux->getCarro()->getmotor()<<endl;
+			cout<<"  Numero de llantas: "<<aux->getCarro()->getnumLlantas()<<endl;
+		}
+};
+
+class Cola{
+	private:
+		Compra *cola;
+	public:
+		Cola(){
+			this->cola=NULL;
+		}
+		void entradas(Lista *list)
+		{
+		     ofstream entrada;
+		  entrada.open("archivo.dat",ios::out|ios::app|ios::binary);
+		  
+		  if(entrada.fail())
+		  {
+		            cout<<"error al crear archivo";
+		            getch();      
+		  }   
+		  
+		  else 
+		  {
+		  	Compra *compra = new Compra;
+		  int x;
+			float y;
+			string z;
+			system("cls");
+			cout << "                  || ENCLOAR ||"<< endl << endl;
+			cout<<"  Escriba el Nombre del Comprador ";
+			fflush(stdin); getline(cin,z);
+			compra->setNombre(z);
+			cout<<"  Escriba el Telefono del Comprador ";
+			cin>>x;
+			compra->setTelefono(x);
+			cout<<"  Escriba la direccion del Comprador ";
+			fflush(stdin); getline(cin,z);
+			compra->setDireccion(z);
+			cout<<"  Escriba el Precio de Veiculo ";
+			cin>>y;
+			compra->setPrecio(y);
+			cout<<"  Escriba la Fecha de la venta ";
+			fflush(stdin); getline(cin,z);
+			compra->setFecha(z);
+			cout << "   Escoja el carro ";
+			compra->setCarro(list->recorrerLista());
+			compra->getCarro()->setcapacidad(compra->getCarro()->getcapacidad());
+			compra->getCarro()->setmarca(compra->getCarro()->getmarca());
+			compra->getCarro()->setmodelo(compra->getCarro()->getmodelo());
+			compra->getCarro()->setmotor(compra->getCarro()->getmotor());
+			compra->getCarro()->setnumLlantas(compra->getCarro()->getnumLlantas());
+		  entrada.write((char *)compra,sizeof(Compra));
+		  entrada.close();
+		  }   
+		      
+		}
+		void salidas()
+		{
+		     ifstream salida;
+		     salida.open("archivo.dat",ios::in|ios::binary);
+		     
+		     if (salida.fail())
+		     {
+		     cout<<"error al abrir el archivo"<<endl;
+		     getch();                  
+		     }
+		     else       
+		     {
+		     int nreg;
+		     Compra *aux=new Compra();
+		     salida.seekg(0,ios::end);
+		     nreg=salida.tellg()/sizeof(Compra);
+		     salida.seekg(0);  
+		     
+		       for(int x=0;x<nreg;x++)
+		              {
+		              salida.read((char *)aux,sizeof(Compra));
+		              cout<<"  Nombre del Comprador "<< aux->getNombre() << endl;
+						cout<<"  Telefono del Comprador "<< aux->getTelefono() << endl;
+						cout<<"  Direccion del Comprador "<< aux->getDireccion() <<endl;
+						cout<<"  Precio de Veiculo "<< aux->getPrecio()<<endl;
+						cout<<"  Fecha de la venta "<< aux->getFecha() <<endl;
+						cout<<"  Marca: "<<aux->getCarro()->getmarca()<<endl;
+						cout<<"  Modelo: "<<aux->getCarro()->getmodelo()<<endl;
+						cout<<"  Capacidad de pasajeros: "<<aux->getCarro()->getcapacidad()<<endl;
+						cout<<"  Motor: "<<aux->getCarro()->getmotor()<<endl;
+						cout<<"  Numero de llantas: "<<aux->getCarro()->getnumLlantas()<<endl;
+					cout << endl<< endl;
+		              }
+		     salida.close();
+		     getch();
+		       
+		     }
+		            
+		}
+		void eliminar()
+		{
+		      ofstream entrada;
+		      entrada.open("temp.dat",ios::out|ios::binary);
+		      ifstream salida;
+		     salida.open("archivo.dat",ios::in|ios::binary);
+		     
+		     if (salida.fail()||entrada.fail())
+		     {
+		     cout<<"error al abrir el archivo"<<endl;
+		     getch();                  
+		     }
+		     else
+		     {
+		     	Compra *aux=new Compra();
+		     	bool auxb=true;
+		     int nreg;
+		     salida.seekg(0,ios::end);
+		     nreg=salida.tellg()/sizeof(Compra);
+		     salida.seekg(0);
+		            for(int x=0;x<nreg;x++)
+		              {
+		              salida.read((char *)aux,sizeof(Compra));
+		                   if(auxb)
+		                     {
+		                     	auxb=false;
+		                     cout<<"registro borrado"<<endl;                             
+		                     }
+		                     
+		                     else
+		                     {
+		                     entrada.write((char *)aux,sizeof(Compra));    
+		                     }
+		                    
+		              }        
+				    
+		     salida.close();
+		     entrada.close();
+		     remove("archivo.dat");
+		     rename("temp.dat","archivo.dat");
+		     cout<<"registro borrado"<<endl; 
+		     getch();   
+		 }
+		     }
+		void encolar(Lista *list){
+			Compra *nuevo=new Compra();
+			nuevo->creaenodo(list);
+			if(cola==NULL){
+				
+			cola=nuevo;
+			}
+			else{
+				Compra *aux=new Compra();
+				aux=cola;
+				while(aux->getSig()!=NULL)
+				aux=aux->getSig();
+				aux->setSig(nuevo);
+			}
+		}
+		void desencolar(){
+			if(cola==NULL)
+			cout<<"  Cola vacia"<<endl;
+			else{
+				 Compra *aux=cola;
+				cout << "  Dato eliminado " ;
+				cola=aux->getSig();
+				free(aux);
+			}
+			getch();
+		}
+		void recorrerC(){
+			if(cola==NULL)
+				cout<<"  Cola vacia"<<endl;
+			else{
+				Compra *aux = new Compra();
+				aux=cola;
+				while(aux!=NULL){
+					cout<<"  "<<endl;
+					aux=aux->getSig();
+				}
+			}
+			getch();
+		}
+};
+
 void Eliminar(Lista*);
 void menuVenta(Lista *);
 void Editar(Lista*);
 
+void entradas();
+void salidas();
+void eliminar();
+void modificar();
+
+void Encolarf(Cola*,Lista*);
+void Desencolarf(Cola*);
 int main(){
 	char opcion;
 	string a;
-
 	Lista *list = new Lista();
 	
 	do{
@@ -553,208 +720,46 @@ void Editar(Lista *list){
 			break;
 	}
 }
-void menuVenta(Lista *_list ){
+void menuVenta(Lista *list ){
 		Cola *co =new Cola();
-		Nodo *_vent =new Nodo();
-	    _list->incluye(_vent);//Asociacion. en vio del objeto al la clase Lista
-	int op,y;
+		Compra *vent =new Compra();
+	int y;
 	string x,z,b;
+	char op;
 	float a;
-	do{	printf(" ||VENTA||");
-	printf("\n1.-Registar Venta");
-	printf("\n2.-Imprimir Datos de la venta");
-	printf("\n3.-Borrar Venta");
-	printf("\n4.-salir");
-    printf("\nOpcion: ");
-    scanf("%i",&op);
-    switch(op){
-    	case 1:
-    	system("cls");
-    	cout<<"\nEscriba el Nombre del Comprador "<<endl;
-    	fflush(stdin); getline(cin,x);
-      
-    	cout<<"\nEscriba el Telefono del Comprador "<<endl;
-    	cin>>y;
-        
-    	cout<<"\nEscriba la direccion del Comprador "<<endl;
-    	fflush(stdin); getline(cin,z);
-       
-    	cout<<"\nEscriba el Pecio de Veiculo "<<endl;
-    	cin>>a;
-    
-    	cout<<"\nEscriba la Fecha de la venta "<<endl;
-    	fflush(stdin); getline(cin,b);
-    	
-        co->encolar(x,y,z,a,b);
-        
-    	printf("\n");
-    	system("pause");
-    	break;
-    	case 2:
-		system("cls");	
-    	co->recorrercola();
-    	printf("\n");
-    	system("pause");
-    	break;
-    	case 3:
-    	system("cls");
-    	co->Desencolar();
-    	system("pause");
-    	break;
-
-    	
-	}
-
-	
-	system("cls");
-	}while(op!=4);
+	do{	
+		printf("                       ||VENTA||");
+		printf("\n  1-Encolar");
+		printf("\n  2-Imprimir Datos de la venta");
+		printf("\n  3-Desencolar");
+		printf("\n  4-salir");
+	    printf("\n  Opcion: ");
+		 cin >> op;
+	    switch(op){
+	    	case '1':
+	    		co->entradas(list);
+		    	printf("\n");
+		    	system("pause");
+	    	break;
+	    	case '2':
+				system("cls");	
+		    	co->salidas();
+				printf("\n");
+				system("pause");
+	    	break;
+	    	case '3':
+		    	system("cls");
+		    	co->eliminar();
+		    	system("pause");
+		    	break;
+	    	default:
+				break;
+	    	
+		}
+		system("cls");
+	}while(op!='4');
 		
 }
-////Archivo-Codigo22
-//#include<conio.h>
-//#include<stdlib.h>
-//#include<fstream>
-//#include<iostream>
-//using namespace std;
-//
-//class Persona{
-//	private:
-//		string nombre;
-//		string direccion;
-//		int telefono;
-//	public:
-//		Persona();
-//		Persona(string, string, int);
-//		void setNombre(string);
-//		void setDireccion(string);
-//		void setTelefon(int);
-//		string getNombre();
-//		string getDireccion();
-//		long getTelefono();
-//};
-//
-//class Archivo{
-//	public:
-//		void crearArchivo();
-//		void agregarPersona(Persona *);
-//		void mostrarContenido();
-//		void buscarPersona();
-//		
-//};
-//
-//void Archivo::crearArchivo(){
-//	ofstream archivo;
-//	archivo.open("personas.dat",ios::out | ios::app);
-//	if(!archivo){
-//		cout<<"Error al abrir el archivo"<<endl;
-//	}
-//	archivo.close();//importante cerrar o el archivo se dañara
-//}
-//
-//void registrarPersona(Persona *); 
-//
-//
-//void Archivo::agregarPersona(Persona *p){
-//	ofstream archivo;
-//	archivo.open("personas.dat",ios::app);
-//	if(!archivo){
-//		cout<<"Error al abrir el archivo"<<endl;
-//	}else{
-//		archivo.write((char *)&*p, sizeof(*p));//puntero hacia el bloque de memoria y tamaño del archivo
-//	    }
-//	archivo.close();
-//}
-//void Archivo::mostrarContenido(){//Debemos saber que, para  mostrar, se abrirá primero el archivo, y este, pasará toda la informacion a la clase
-//	ifstream archivo("personas.dat"); // después, ya con la informacion en la clase, podremos imprimir medinte ella
-//	Persona *p =new Persona();//se inicilaza nuevamente la clase persona para que sea rellenada por el archivo
-//	if(archivo.good()){
-//		while(!archivo.eof()){//mientrar archivo no llegue al final
-//			archivo.read((char *)&*p,sizeof(*p));
-//			if(archivo.eof())//salir si el archivo llego al final
-//			break;//ya ha llegado al final. ya no hay nada que mostrar
-//			cout<<"Nombre: "<<p->getNombre()<<endl;
-//			cout<<"direccion: "<<p->getDireccion()<<endl;
-//			cout<<"Telefono: "<<p->getTelefono()<<endl;
-//		}
-//	}else
-//		cout<<"Archivo vacio"<<endl; 
-//}
-//void Archivo::buscarPersona(){
-//	fstream archivo("personas.dat",ios::in | ios::out);
-//	Persona *p =new Persona();
-//	string buscarNom,nom, dir;
-//	long int posicion=0;
-//	int mod=0,tel;
-//	if(!archivo){
-//		cout<<"Error al abrir el archivo"<<endl;
-//	}else{
-//		cout<<"Nombre a buscar: ";
-//		fflush(stdin); getline(cin,buscarNom);
-//		while(!archivo.eof()){
-//			archivo.read((char *)&*p,sizeof(*p));
-//			posicion=archivo.tellp();
-//			if(p->getNombre()==buscarNom){
-//				cout<<"Nombre encontrado"<<endl;
-//				cout<<"Modifacar los datos?(1=Sí,2=No)"<<endl;
-//				cin>>mod;
-//				if(mod==1){
-//					archivo.seekp((posicion-sizeof(*p)),ios::beg);
-//					cout<<"Nombre: ";
-//					cin>>nom;
-//					p->setNombre(nom);
-//					cout<<"Direccion: ";
-//					cin>>dir;
-//					p->setDireccion(dir);
-//					cout<<"Telefono: ";
-//					cin>>tel;
-//					p->setTelefon(tel);
-//					archivo.write((char *)&*p,sizeof(*p));
-//					cout<<"Datos actualizados"<<endl;
-//					
-//				}//if-mod
-//			}//if-comparación
-//		}//while
-//	}//else-Archivo
-//	archivo.close();
-//}//Métod
-//int main(){
-//	Archivo a;
-//	Persona *obj =new Persona();
-//	int op=0;
-//	a.crearArchivo();
-//	do{
-//		//menu opciones
-//		cout<<"1.-registra ersona"<<endl;
-//		cout<<"2.-Mostar daros"<<endl;
-//		cout<<"3.-buscar Persona"<<endl;
-//		cout<<"4.-Salir"<<endl;
-//		cout<<"Opciion: ";
-//		cin>>op;
-//		switch(op){
-//			case 1: registrarPersona(&obj);
-//			        a.agregarPersona(&obj);
-//			break;
-//			case 2: a.mostrarContenido();
-//			break;
-//			case 3: a.buscarPersona();
-//			break;
-//		}
-//	}while(op!=4);
-//getch();
-//return(0);	
-//}
-//void registrarPersona(Persona *p){
-//	string n,d;
-//	int tel;
-//	
-//	cout<<"Escribe el nombre ";
-//	fflush(stdin); getline(cin,n);
-//	p->setNombre(n);
-//	cout<<"Escribe la direccion ";
-//	fflush(stdin); getline(cin,d);
-//	p->setDireccion(d);
-//	cout<<"Digita el Telefono ";
-//	cin>>tel;
-//	p->setTelefon(tel);
-//}
-
+void Encolarf(Cola*co,Lista*list){
+	
+}
