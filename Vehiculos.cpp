@@ -21,11 +21,11 @@ class Nodo{
 	private: string fecha;
 	public: Nodo *sig;
 	public: Nodo(){
-		this->comp.nombre="x";
+		this->comp.nombre="N";
 		this->comp.telefono=0;
-		this->comp.direccion="x";
+		this->comp.direccion="N";
 		this->precio=0;
-		this->fecha="x";
+		this->fecha="N";
 		this->sig=NULL;
 	}
 	public: Nodo(string x, int y, string z, float a, string b){
@@ -94,21 +94,21 @@ class Cola{
 		else{
 			Nodo *aux=new Nodo();
 			aux=cola;
-			cout<<"||VENTAS REGISTRADAS||"<<endl;
+			cout<<"             ||VENTAS REGISTRADAS||"<<endl;
 			while(aux->sig!=NULL){
-				cout<<"Nombre: "<<aux->getNombre()<<endl;
-	    		cout<<"Telefono: "<<aux->getTelfono()<<endl;
-	    		cout<<"Direccion: "<<aux->getDireccion()<<endl;
-	    		cout<<"Precio: "<<aux->getPrecio()<<endl;
-	    		cout<<"Fecha: "<<aux->grtFecha()<<endl;
+				cout<<"  Nombre: "<<aux->getNombre()<<endl;
+	    		cout<<"  Telefono: "<<aux->getTelfono()<<endl;
+	    		cout<<"  Direccion: "<<aux->getDireccion()<<endl;
+	    		cout<<"  Precio: "<<aux->getPrecio()<<endl;
+	    		cout<<"  Fecha: "<<aux->grtFecha()<<endl;
 	    		cout<<endl;
 				aux=aux->sig;
 			}
-			cout<<"Nombre: "<<aux->getNombre()<<endl;
-			cout<<"Telefono: "<<aux->getTelfono()<<endl;
-			cout<<"Direccion: "<<aux->getDireccion()<<endl;
-			cout<<"Precio: "<<aux->getPrecio()<<endl;
-			cout<<"Fecha: "<<aux->grtFecha()<<endl;
+			cout<<"  Nombre: "<<aux->getNombre()<<endl;
+			cout<<"  Telefono: "<<aux->getTelfono()<<endl;
+			cout<<"  Direccion: "<<aux->getDireccion()<<endl;
+			cout<<"  Precio: "<<aux->getPrecio()<<endl;
+			cout<<"  Fecha: "<<aux->grtFecha()<<endl;
 		}
 	}
 
@@ -136,7 +136,7 @@ class Vehiculo{
 		Vehiculo(){
 			numLlantas=0;
 			capacidad=0;
-			motor="x";
+			motor="N";
 		}
 		void setnumLlantas(int a){
 			numLlantas=a;
@@ -169,9 +169,9 @@ class Carro: public Vehiculo{
 		Carro():Vehiculo(){
 			this->numLlantas=0;
 			this->capacidad=0;
-			this->motor="x";
-			this->modelo="x";
-			this->marca="x";
+			this->motor="N";
+			this->modelo="N";
+			this->marca="N";
 			this->sig=NULL;
 			this->ant=NULL;
 		    
@@ -223,7 +223,7 @@ class Lista{
 				nuevo->ant=aux;
 			}
 		}
-		string recorrerLista(){
+		Carro* recorrerLista(){
 			char ind;
 			if(lista==NULL){
 				cout<<"  Lista vacia"<<endl;
@@ -241,11 +241,49 @@ class Lista{
 					ind=getche();
 					aux=(((ind=='a'||ind=='A')&&aux->ant!=NULL)?aux->ant:((ind=='d'||ind=='D')&&aux->sig!=NULL)?aux->sig:aux);
 				}while(ind != 'S' && ind != 's');
-				return aux->getmodelo();
+				return aux;
 			}
-			return "undefine";
+			return NULL;
 		}
-		void eliminarNodo(string z){
+		void elimarCarro(){
+			Carro *aux=lista;
+			Carro *ant=NULL;
+			if(lista==NULL){
+				cout<<"  Lista vacia"<<endl;
+				getch();
+				}
+			else{
+				Carro *op=recorrerLista();
+				while((aux!=NULL)&&(aux!=op)){
+					ant=aux;
+					aux=aux->sig;
+				}
+				if(aux!=NULL){
+					if(ant!=NULL&&aux->sig!=NULL){
+						ant->sig=aux->sig;
+						aux->sig->ant=aux->ant;
+					}
+					else if(ant==NULL&&aux->sig!=NULL){
+						lista=aux->sig;
+						lista->ant=NULL;
+					}
+					else if(ant!=NULL&&aux->sig==NULL){
+						ant->sig=NULL;
+					}
+					else{
+						lista=NULL;
+						aux=NULL;
+						free(lista);
+					}
+					free(aux);
+					cout<<"Carro eliminado"<<endl<<endl;
+				}
+				else
+					cout<<"El Carro no esta en la lista"<<endl<<endl;
+				}
+		}
+			
+		void eliminarNodoS(string z){
 			Carro *aux=lista;
 			Carro *ant=NULL;
 			while((aux!=NULL)&&(aux->getmodelo()!=z)){
@@ -324,67 +362,69 @@ class Lista{
 				aux->ant=ante;
 				aux->sig=NULL;
 			}
-			if(aux->sig==lista2||ne->sig==lista2||ante->sig==lista2){
+			if(aux->sig==lista2)
 				aux->sig=NULL;
-			}
 		}
 	}
-	public: void buscarValor(string x){
+	public: Carro* buscarValor(string x){
 		Carro *aux = new Carro();
 		aux=lista;
 		while(aux!=NULL&&aux->getmodelo()!=x)
 			aux=aux->sig;
-		if(aux==NULL)
-			cout<<endl<<"El valor no esta en la lista"<<endl<<endl;
+		if(aux==NULL){
+			cout<<endl<<"  El valor no esta en la lista"<<endl<<endl;
+			return NULL;
+		}
 		else{
-			int opcion2, i;
-			do{
-				cout<<endl<<"  MODELO ENCONTRADO\n\n  Que desea editar?\n\n  1)Marca\n  2)Modelo\n  3)Motor\n  4)Capacidad de pasajeros\n  5)Numero de llantas\n  6)Salir\n\n  Opcion: ";
-				cin>>opcion2;
-				system("cls");
-				switch(opcion2){
-					case 1:
-						cout<<endl<<"Nueva marca: ";
-						cin>>x;
-						aux->setmarca(x);
-						system("cls");
-						break;
-					case 2:
-						cout<<endl<<"Nuevo modelo: ";
-						cin>>x;
-						aux->setmodelo(x);
-						system("cls");
-						break;
-					case 3:
-						cout<<endl<<"Nuevo motor: ";
-						cin>>x;
-						aux->setmotor(x);
-						system("cls");
-						break;
-					case 4:
-						cout<<endl<<"Nueva capacidad de pasajeros: ";
-						cin>>i;
-						aux->setcapacidad(i);
-						system("cls");
-						break;
-					case 5:
-						cout<<endl<<"Nuevo numero de llantas: ";
-						cin>>i;
-						aux->setnumLlantas(i);
-						system("cls");
-						break;
-					case 6:
-						cout<<endl<<"Saliste de editar"<<endl;
-						system("cls");
-						break;
-					default:
-						cout<<endl<<"Opcion invalida"<<endl;
-						system("cls");
-						break;
-				}
-			}while(opcion2!=6);
+			return aux;
 		}
 	}
+		void editar(Carro *aux){
+			int  x;
+			char opcion2;
+			string z;
+			do{
+				system("cls");
+				mostrar(aux);
+				cout << "                          || EDITAR || "<< endl;
+				cout<<endl<<"  MODELO ENCONTRADO\n\n  Que desea editar?\n\n  1)Marca\n  2)Modelo\n  3)Motor\n  4)Capacidad de pasajeros\n  5)Numero de llantas\n  6)Salir\n\n  Opcion: ";
+				cin>>opcion2;
+				switch(opcion2){
+					case '1':
+						cout<<endl<<"  Nueva marca: ";
+						fflush(stdin);getline(cin,z);
+						aux->setmarca(z);
+						break;
+					case '2':
+						cout<<endl<<"  Nuevo modelo: ";
+						fflush(stdin);getline(cin,z);
+						aux->setmodelo(z);
+						break;
+					case '3':
+						cout<<endl<<"  Nuevo motor: ";
+						fflush(stdin);getline(cin,z);
+						aux->setmotor(z);
+						break;
+					case '4':
+						cout<<endl<<"  Nueva capacidad de pasajeros: ";
+						cin>>x;
+						aux->setcapacidad(x);
+						break;
+					case '5':
+						cout<<endl<<"  Nuevo numero de llantas: ";
+						cin>>x;
+						aux->setnumLlantas(x);
+						break;
+					case '6':
+						cout<<endl<<"  Saliste de editar"<<endl;
+						break;
+					default:
+						cout<<endl<<"  Opcion invalida"<<endl;
+						break;
+					system("cls");
+				}
+			}while(opcion2!='6');
+		}
 		void registrar(Carro *c){
 			string a, b, f;
 			int d, e;
@@ -418,6 +458,7 @@ class Lista{
 
 void Eliminar(Lista*);
 void menuVenta(Lista *);
+void Editar(Lista*);
 
 int main(){
 	char opcion;
@@ -427,6 +468,7 @@ int main(){
 	
 	do{
 		system("cls");
+		cout << "                       || CARROS ||"<< endl;
 		cout<<"  1)Agregar Veiculo\n  2)Recorrer\n  3)Editar\n  4)Eliminar\n  5)Ordenar \n  6)Registar Venta\n  7)Salir\n\n  Opcion: ";
 		cin>>opcion;
 		system("cls");
@@ -438,10 +480,7 @@ int main(){
 				list->recorrerLista();
 				break;
 			case '3':
-				cout<<"  Introduzca el modelo del vehiculo que busca: ";
-				fflush(stdin);getline(cin, a);
-				system("cls");
-				list->buscarValor(a);
+				Editar(list);
 				break;
 			case '4':
 				Eliminar(list);
@@ -464,7 +503,7 @@ int main(){
 void Eliminar(Lista *list){
 	char opc;
 	string z;
-	cout << "                           || ELIMINAR ||" << endl;
+	cout << "                                   || ELIMINAR ||" << endl;
 	cout << "  1-Eliminar por busqueda manual" << endl;
 	cout << "  2-Eliminar por modelo" << endl;
 	cout << "  3-Regresar" << endl << "  Opcion: ";
@@ -472,12 +511,42 @@ void Eliminar(Lista *list){
 	system("cls");
 	switch(opc){
 		case '1':
-			list->eliminarNodo(list->recorrerLista());
+			list->elimarCarro();
 			break;
 		case '2':
-			cout << "  Anote el modelo de el carro que desee eliminar " << endl << "  Modelo: ";
+			cout << "                           || ELIMINAR ||" << endl;
+			cout << "  Anote el modelo de el carro que dese eliminar " << endl << "  Modelo: ";
 			fflush(stdin);getline(cin,z);
-			list->eliminarNodo(z);
+			list->eliminarNodoS(z);
+			break;
+		case '3':
+		default:
+			break;
+	}
+}
+void Editar(Lista *list){
+	char opc;
+	string z;
+	cout << "                                    || BUSQUEDA ||" << endl;
+	cout << "  1-Busqueda manual" << endl;
+	cout << "  2-Busqueda por modelo" << endl;
+	cout << "  3-Regresar" << endl << "  Opcion: ";
+	fflush(stdin);cin >> opc;fflush(stdin);
+	system("cls");
+	switch(opc){
+		case '1':
+			list->editar(list->recorrerLista());
+			break;
+		case '2':
+			cout << "                            || BUSQUEDA ||" << endl;
+			cout<<"  Introduzca el modelo del vehiculo que busca: ";
+			fflush(stdin);getline(cin,z);
+			system("cls");
+			if(list->buscarValor(z)!=NULL)
+			list->editar(list->buscarValor(z));
+			else 
+			cout << "  valor no enconreado"<< endl;
+			getch();
 			break;
 		case '3':
 		default:
@@ -540,7 +609,7 @@ void menuVenta(Lista *_list ){
 	system("cls");
 	}while(op!=4);
 		
-	}
+}
 ////Archivo-Codigo22
 //#include<conio.h>
 //#include<stdlib.h>
